@@ -24,8 +24,8 @@ async function getData() {
 
 getData(); // Fetch data initially
 
-async function postData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+async function postData() {
+    // event.preventDefault(); // Prevent form from refreshing the page
 
     let addId = document.getElementById("add-id").value;
     let addName = document.getElementById("add-name").value;
@@ -59,8 +59,8 @@ async function postData(event) {
 document.getElementById("addForm").addEventListener("submit", postData);
 
 
-async function updateData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+async function updateData() {
+    // event.preventDefault(); // Prevent form from refreshing the page
 
     let updateId = document.getElementById("update-id").value;
     let updateName = document.getElementById("update-name").value;
@@ -94,8 +94,8 @@ document.getElementById("updateForm").addEventListener("submit", updateData);
 
 document.getElementById("updateForm").reset();
 
-async function delData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+async function delData() {
+    // event.preventDefault(); // Prevent form from refreshing the page
 
     let deleteId = document.getElementById("delete-id").value;
 
