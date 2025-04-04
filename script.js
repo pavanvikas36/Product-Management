@@ -24,8 +24,8 @@ async function getData() {
 
 getData(); // Fetch data initially
 
-async function postData() {
-    // event.preventDefault(); // Prevent form from refreshing the page
+async function postData(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
 
     let addId = document.getElementById("add-id").value;
     let addName = document.getElementById("add-name").value;
@@ -59,8 +59,8 @@ async function postData() {
 document.getElementById("addForm").addEventListener("submit", postData);
 
 
-async function updateData() {
-    // event.preventDefault(); // Prevent form from refreshing the page
+async function updateData(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
 
     let updateId = document.getElementById("update-id").value;
     let updateName = document.getElementById("update-name").value;
@@ -74,7 +74,7 @@ async function updateData() {
         stock: updateStock
     };
 
-    let data = await fetch(`https://product-management-1-9n1q.onrender.com${updateId}`, {
+    let data = await fetch(`https://product-management-1-9n1q.onrender.com/${updateId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -94,8 +94,8 @@ document.getElementById("updateForm").addEventListener("submit", updateData);
 
 document.getElementById("updateForm").reset();
 
-async function delData() {
-    // event.preventDefault(); // Prevent form from refreshing the page
+async function delData(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
 
     let deleteId = document.getElementById("delete-id").value;
 
@@ -103,7 +103,7 @@ async function delData() {
         id: deleteId
     };
 
-    let data = await fetch(`https://product-management-1-9n1q.onrender.com${deleteId}`, {
+    let data = await fetch(`https://product-management-1-9n1q.onrender.com/${deleteId}`, {
         method: "DELETE"
     });
 
