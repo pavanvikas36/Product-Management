@@ -1,5 +1,5 @@
 async function getData() {
-    let data = await fetch("http://localhost:4000/data");
+    let data = await fetch("https://product-management-1-9n1q.onrender.com");
     let result = await data.json();
     console.log(result);
     let container1 = document.createElement("div")
@@ -39,7 +39,7 @@ async function postData(event) {
         stock: addStock
     };
 
-    let data = await fetch("http://localhost:4000/data", {
+    let data = await fetch("https://product-management-1-9n1q.onrender.com", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -74,7 +74,7 @@ async function updateData(event) {
         stock: updateStock
     };
 
-    let data = await fetch(`http://localhost:4000/data/${updateId}`, {
+    let data = await fetch(`https://product-management-1-9n1q.onrender.com${updateId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -103,7 +103,7 @@ async function delData(event) {
         id: deleteId
     };
 
-    let data = await fetch(`http://localhost:4000/data/${deleteId}`, {
+    let data = await fetch(`https://product-management-1-9n1q.onrender.com${deleteId}`, {
         method: "DELETE"
     });
 
