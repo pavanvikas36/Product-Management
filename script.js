@@ -1,118 +1,133 @@
+// Fetch and display data
 async function getData() {
-    let data = await fetch("https://product-management-hm2t.onrender.com/data");
-    let result = await data.json();
-    console.log(result);
-    let container1 = document.createElement("div")
-    container1.classList.add("container1")
-    result.forEach((val)=>{
-        let parent = document.createElement("div");
-        let child1 = document.createElement("h4");
-        let child2 = document.createElement("h4");
-        let child3 = document.createElement("h4");
-        let child4 = document.createElement("h4");
-        parent.classList.add("cards")
-        child1.innerText = val.id
-        child2.innerText = val.name
-        child3.innerText = val.price
-        child4.innerText = val.stock
-        parent.append(child1, child2, child3, child4);
-        container1.append(parent);
-    })
-    document.body.append(container1);
-    console.log(container1)
+    try {
+        const response = await fetch("https://product-management-hm2t.onrender.com/data");
+        const result = await response.json();
+
+        const existingContainer = document.querySelector(".container1");
+        if (existingContainer) existingContainer.remove(); // Remove old data before appending new
+
+        const container1 = document.createElement("div");
+        container1.classList.add("container1");
+
+        result.forEach((val) => {
+            const parent = document.createElement("div");
+            parent.classList.add("cards");
+
+            const child1 = document.createElement("h4");
+            const child2 = document.createElement("h4");
+            const child3 = document.createElement("h4");
+            const child4 = document.createElement("h4");
+
+            child1.innerText = `ID: ${val.id}`;
+            child2.innerText = `Name: ${val.name}`;
+            child3.innerText = `Price: ₹${val.price}`;
+            child4.innerText = `Stock: ${val.stock}`;
+
+            parent.append(child1, child2, child3, child4);
+            container1.append(parent);
+        });
+
+        document.body.append(container1);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
 }
 
-getData(); // Fetch data initially
-
+// POST: Add product
 async function postData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+    event.preventDefault();
 
-    let addId = document.getElementById("add-id").value;
-    let addName = document.getElementById("add-name").value;
-    let addPrice = document.getElementById("add-price").value;
-    let addStock = document.getElementById("add-stock").value;
+    const addId = document.getElementById("add-id").value;
+    const addName = document.getElementById("add-name").value;
+    const addPrice = document.getElementById("add-price").value;
+    const addStock = document.getElementById("add-stock").value;
 
-    let products = {
+    const product = {
         id: addId,
         name: addName,
         price: addPrice,
         stock: addStock
     };
+    console.log(product);
+   
+    
 
-    let data = await fetch("https://product-management-hm2t.onrender.com/data", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(products)
-    });
+    try {
+        let response = await fetch("https://product-management-hm2t.onrender.com/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        });
 
-    let result = await data.json();
-    // console.log(result);
+        const result = await response.json();
+        console.log("Added:", result);
 
-    // Fetch updated data
-    // getData();
+        getData(); // Refresh data
+        document.getElementById("addForm").reset();
+    } catch (error) {
+        console.error("Error adding product:", error);
+    }
 }
 
-
-// Attach the function to the form submission event
-document.getElementById("addForm").addEventListener("submit", postData);
-
-
+// PATCH: Update product
 async function updateData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+    event.preventDefault();
 
-    let updateId = document.getElementById("update-id").value;
-    let updateName = document.getElementById("update-name").value;
-    let updatePrice = document.getElementById("update-price").value;
-    let updateStock = document.getElementById("update-stock").value;
+    const updateId = document.getElementById("update-id").value;
+    const updateName = document.getElementById("update-name").value;
+    const updatePrice = document.getElementById("update-price").value;
+    const updateStock = document.getElementById("update-stock").value;
 
-    let products = {
+    const product = {
         id: updateId,
         name: updateName,
         price: updatePrice,
         stock: updateStock
     };
 
-    let data = await fetch(`https://product-management-hm2t.onrender.com/data/${updateId}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(products)
-    });
+    try {
+        const response = await fetch(`https://product-management-hm2t.onrender.com/data/${updateId}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        });
 
-    let result = await data.json();
-    // console.log(result);
+        const result = await response.json();
+        console.log("Updated:", result);
 
-    // Fetch updated data
-    // getData();
+        getData(); // Refresh data
+        document.getElementById("updateForm").reset();
+    } catch (error) {
+        console.error("Error updating product:", error);
+    }
 }
 
-// Attach the function to the form submission event
-document.getElementById("updateForm").addEventListener("submit", updateData);
-
-document.getElementById("updateForm").reset();
-
+// DELETE: Remove product
 async function delData(event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+    event.preventDefault();
 
-    let deleteId = document.getElementById("delete-id").value;
+    const deleteId = document.getElementById("delete-id").value;
 
-    let products = {
-        id: deleteId
-    };
+    try {
+        const response = await fetch(`https://product-management-hm2t.onrender.com/data/${deleteId}`, {
+            method: "DELETE"
+        });
 
-    let data = await fetch(`https://product-management-hm2t.onrender.com/data/${deleteId}`, {
-        method: "DELETE"
-    });
+        const result = await response.json();
+        console.log("Deleted:", result);
 
-    let result = await data.json();
-    // console.log(result);
-
-    // Fetch updated data
-    // getData();
-    
+        getData(); // Refresh data
+        document.getElementById("deleteForm").reset();
+    } catch (error) {
+        console.error("Error deleting product:", error);
+    }
 }
+
+// Event Listeners
+document.getElementById("addForm").addEventListener("submit", postData);
+document.getElementById("updateForm").addEventListener("submit", updateData);
 document.getElementById("deleteForm").addEventListener("submit", delData);
-document.getElementById("deleteForm").reset()
+
+// Initial fetch
+getData();
